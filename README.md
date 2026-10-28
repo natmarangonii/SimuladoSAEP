@@ -19,7 +19,7 @@ Desenvolver um sistema Web Full-stack para gerenciar o acervo de uma loja de dis
 
 | Login | Home | Venda | Lista |
 | :-: | :-: | :-: | :-: |
-| <img src="frontend/assets/tela01.png" width="200"/> | <img src="frontend/assets/tela02.png" width="200"/> | <img src="frontend/assets/tela03.png" width="200"/> | <img src="frontend/assets/tela04.png" width="200"/> |
+| <img src="Frontend/assets/tela01.png" width="200"/> | <img src="Frontend/assets/tela02.png" width="200"/> | <img src="Frontend/assets/tela03.png" width="200"/> | <img src="Frontend/assets/tela04.png" width="200"/> |
 
 ## ⋆ Como Testar o Programa
 
