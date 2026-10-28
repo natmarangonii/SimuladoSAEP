@@ -12,7 +12,7 @@ Desenvolver um sistema Web Full-stack para gerenciar o acervo de uma loja de dis
 ## ⋆ Diagrama de Entidades
 
 <p align="center">
-  <img src="frontend/assets/der.png" width="350"/>
+  <img src="Frontend/assets/der.png" width="350"/>
 </p>
 
 ## ⋆ Imagens do Programa
