@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Disco Studio
+  </title>
+  <link href="../style.css" rel="stylesheet"/>
+  <script src="../script.js">
+  </script>
+ </head>
+ <body>
+  <header class="topbar">
+   <div class="nav-wrap">
+    <a class="brand" href="home.html">
+     <img alt="Logo da loja" id="brandLogo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../assets/logo.png"/>
+     <div class="brand-mark" style="display:none">
+      DS
+     </div>
+     <div>
+      <div class="brand-name">
+       Disco Studio
+      </div>
+      <div class="brand-sub">
+       ACERVO &amp; VINIL
+      </div>
+     </div>
+    </a>
+    <nav class="nav">
+     <a data-nav="home" href="home.html">
+      IN&Iacute;CIO
+     </a>
+     <a data-nav="discos" href="discos.html">
+      CADASTRO DE DISCOS
+     </a>
+     <a data-nav="gestao" href="gestao.html">
+      ACERVO &amp; VENDAS
+     </a>
+    </nav>
+    <div class="user-area">
+     <span>
+      Ol&aacute;,
+      <strong data-user-name="">
+       Usu&aacute;rio
+      </strong>
+     </span>
+     <button class="logout" onclick="logout()">
+      Sair &nearrow;
+     </button>
+    </div>
+   </div>
+  </header>
+  <main class="container">
+   <div class="page-heading">
+    <div>
+     <div class="eyebrow">
+      SEU CAT&Aacute;LOGO
+     </div>
+     <h1>
+      Cadastro de discos
+     </h1>
+     <p>
+      Os t&iacute;tulos cadastrados no banco aparecem nesta lista.
+     </p>
+    </div>
+    <button onclick="newDisco()">
+     ＋ Novo disco
+    </button>
+   </div>
+   <div class="notice" id="notice">
+   </div>
+   <section class="panel">
+    <div class="toolbar">
+     <div class="search">
+      <input id="search" placeholder="Buscar por t&iacute;tulo, artista ou g&ecirc;nero..."/>
+      <button id="searchBtn">
+       Buscar
+      </button>
+     </div>
+     <button class="secondary" id="clearBtn">
+      Limpar busca
+     </button>
+    </div>
+    <div class="table-wrap">
+     <table>
+      <thead>
+       <tr>
+        <th>
+         ID
+        </th>
+        <th>
+         T&iacute;tulo
+        </th>
+        <th>
+         Artista
+        </th>
+        <th>
+         G&ecirc;nero
+        </th>
+        <th>
+         Pre&ccedil;o de venda
+        </th>
+        <th>
+         Estoque
+        </th>
+        <th>
+         A&ccedil;&otilde;es
+        </th>
+       </tr>
+      </thead>
+      <tbody id="rows">
+       <tr>
+        <td class="empty" colspan="7">
+         Carregando acervo&hellip;
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </section>
+   <div class="footer">
+    <a href="home.html">
+     &larr; Voltar ao in&iacute;cio
+    </a>
+   </div>
+  </main>
+  <div id="modal" style="display:none;position:fixed;inset:0;background:#24171199;z-index:5;overflow:auto;padding:24px;place-items:center">
+   <form class="panel" id="discoForm" style="width:min(600px,100%);margin:auto">
+    <div class="eyebrow">
+     ACERVO
+    </div>
+    <h2 class="section-title" id="formTitle">
+     Novo disco
+    </h2>
+    <p class="muted" style="font-size:13px;margin-top:6px">
+     Preencha os dados do t&iacute;tulo.
+    </p>
+    <div class="notice" id="formNotice">
+    </div>
+    <div class="form-grid">
+     <div class="field">
+      <label for="titulo">
+       T&iacute;tulo *
+      </label>
+      <input id="titulo" maxlength="191" required=""/>
+     </div>
+     <div class="field">
+      <label for="artista">
+       Artista *
+      </label>
+      <input id="artista" maxlength="191" required=""/>
+     </div>
+     <div class="field">
+      <label for="genero">
+       G&ecirc;nero *
+      </label>
+      <input id="genero" maxlength="191" required=""/>
+     </div>
+     <div class="field">
+      <label for="preco_custo">
+       Pre&ccedil;o de custo (R$) *
+      </label>
+      <input id="preco_custo" min="0.01" required="" step="0.01" type="number"/>
+     </div>
+     <div class="field">
+      <label for="preco_venda">
+       Pre&ccedil;o de venda (R$) *
+      </label>
+      <input id="preco_venda" min="0.01" required="" step="0.01" type="number"/>
+     </div>
+     <div class="field">
+      <label for="quantidade_estoque">
+       Quantidade em estoque *
+      </label>
+      <input id="quantidade_estoque" min="0" required="" step="1" type="number"/>
+     </div>
+     <div class="field full">
+      <label for="estoque_minimo">
+       Estoque m&iacute;nimo *
+      </label>
+      <input id="estoque_minimo" min="0" required="" step="1" type="number"/>
+     </div>
+    </div>
+    <div class="form-actions">
+     <button class="secondary" onclick="closeModal()" type="button">
+      Cancelar
+     </button>
+     <button type="submit">
+      Salvar disco
+     </button>
+    </div>
+   </form>
+  </div>
+  <script>
+   requireLogin();document.querySelector('[data-nav="discos"]').classList.add('active');let allDiscos=[],editingId=null;const rows=document.getElementById('rows'),notice=document.getElementById('notice'),modal=document.getElementById('modal'),form=document.getElementById('discoForm');async function load(){try{allDiscos=await api('/disco/listar');render(allDiscos);}catch(e){rows.innerHTML='<tr><td colspan="7" class="empty">'+escapeHtml(e.message)+'</td></tr>';showNotice(notice,e.message);}}function render(list){if(!list.length){rows.innerHTML='<tr><td colspan="7" class="empty">Nenhum disco encontrado.</td></tr>';return;}rows.innerHTML=list.map(d=>`<tr><td>${d.id_disco}</td><td><strong>${escapeHtml(d.titulo)}</strong></td><td>${escapeHtml(d.artista)}</td><td>${escapeHtml(d.genero)}</td><td>${money(d.preco_venda)}</td><td>${d.quantidade_estoque}</td><td><div class="actions"><button class="small secondary" onclick="editDisco(${d.id_disco})">Editar</button><button class="small danger" onclick="deleteDisco(${d.id_disco})">Excluir</button></div></td></tr>`).join('');}function search(){const q=document.getElementById('search').value.trim().toLocaleLowerCase('pt-BR');render(allDiscos.filter(d=>[d.titulo,d.artista,d.genero,String(d.id_disco)].some(x=>String(x).toLocaleLowerCase('pt-BR').includes(q))));}document.getElementById('searchBtn').onclick=search;document.getElementById('search').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();search();}});document.getElementById('clearBtn').onclick=()=>{document.getElementById('search').value='';render(allDiscos);};function newDisco(){editingId=null;form.reset();document.getElementById('formTitle').textContent='Novo disco';document.getElementById('formNotice').className='notice';modal.style.display='grid';}function closeModal(){modal.style.display='none';}function editDisco(id){const d=allDiscos.find(x=>x.id_disco===id);if(!d)return;editingId=id;for(const k of ['titulo','artista','genero','preco_custo','preco_venda','quantidade_estoque','estoque_minimo'])document.getElementById(k).value=d[k];document.getElementById('formTitle').textContent='Editar disco';document.getElementById('formNotice').className='notice';modal.style.display='grid';}async function deleteDisco(id){const d=allDiscos.find(x=>x.id_disco===id);if(!d||!confirm(`Excluir “${d.titulo}”? Esta ação não pode ser desfeita.`))return;try{await api('/disco/excluir/'+id,{method:'DELETE'});showNotice(notice,'Disco excluído.','success');await load();}catch(e){showNotice(notice,e.message);}}form.addEventListener('submit',async e=>{e.preventDefault();const data={titulo:document.getElementById('titulo').value.trim(),artista:document.getElementById('artista').value.trim(),genero:document.getElementById('genero').value.trim(),preco_custo:Number(document.getElementById('preco_custo').value),preco_venda:Number(document.getElementById('preco_venda').value),quantidade_estoque:Number(document.getElementById('quantidade_estoque').value),estoque_minimo:Number(document.getElementById('estoque_minimo').value)};if(!data.titulo||!data.artista||!data.genero||![data.preco_custo,data.preco_venda].every(x=>Number.isFinite(x)&&x>0)||![data.quantidade_estoque,data.estoque_minimo].every(x=>Number.isInteger(x)&&x>=0)){showNotice(document.getElementById('formNotice'),'Confira os campos: textos obrigatórios, preços maiores que zero e estoque em números inteiros não negativos.');return;}try{await api(editingId?'/disco/atualizar/'+editingId:'/disco/cadastrar',{method:editingId?'PUT':'POST',body:JSON.stringify(data)});closeModal();showNotice(notice,editingId?'Disco atualizado com sucesso.':'Disco cadastrado com sucesso.','success');await load();}catch(err){showNotice(document.getElementById('formNotice'),err.message);}});load();
+  </script>
+  <script src="../script.js">
+  </script>
+ </body>
+</html>
+

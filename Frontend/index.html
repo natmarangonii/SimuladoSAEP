@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DiscoStudio | Acesso</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-body">
+    <main class="auth-page">
+        <section class="auth-brand-panel" aria-label="DiscoStudio">
+            <div class="auth-brand-content">
+                <img class="auth-main-logo" src="assets/logo.png" alt="Logo DiscoStudio"
+                     onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='grid';">
+                <div class="auth-logo-fallback" id="logoFallback" aria-hidden="true">DS</div>
+                <h1>DiscoStudio</h1>
+            </div>
+        </section>
+
+        <section class="auth-form-panel">
+            <div class="auth-card">
+                <form id="loginForm" class="auth-form">
+                    <div class="auth-eyebrow">BEM-VINDO DE VOLTA</div>
+                    <h2>Entrar na loja</h2>
+                    <p class="auth-intro">Acesse o painel do seu acervo.</p>
+                    <div id="loginNotice" class="notice" role="status" aria-live="polite"></div>
+
+                    <div class="field">
+                        <label for="email">E-mail</label>
+                        <input id="email" name="email" type="email" autocomplete="username"
+                               placeholder="voce@email.com" required>
+                    </div>
+                    <div class="field">
+                        <label for="senha">Senha</label>
+                        <input id="senha" name="senha" type="password" autocomplete="current-password"
+                               placeholder="Sua senha" required>
+                    </div>
+                    <button class="btn auth-submit" type="submit">Entrar no painel</button>
+                    <p class="auth-switch">Ainda não tem uma conta? <button type="button" class="text-button" id="showRegister">Cadastrar usuário</button></p>
+                </form>
+
+                <form id="registerForm" class="auth-form" hidden>
+                    <div class="auth-eyebrow">FAÇA PARTE DA LOJA</div>
+                    <h2>Criar uma conta</h2>
+                    <p class="auth-intro">Cadastre seus dados para acessar o acervo.</p>
+                    <div id="registerNotice" class="notice" role="status" aria-live="polite"></div>
+
+                    <div class="field">
+                        <label for="registerNome">Nome completo</label>
+                        <input id="registerNome" name="nome" type="text" autocomplete="name"
+                               placeholder="Seu nome" minlength="2" required>
+                    </div>
+                    <div class="field">
+                        <label for="registerEmail">E-mail</label>
+                        <input id="registerEmail" name="email" type="email" autocomplete="email"
+                               placeholder="voce@email.com" required>
+                    </div>
+                    <div class="field">
+                        <label for="registerSenha">Senha</label>
+                        <input id="registerSenha" name="senha" type="password" autocomplete="new-password"
+                               placeholder="Crie uma senha" minlength="6" required>
+                    </div>
+                    <div class="field">
+                        <label for="confirmSenha">Confirmar senha</label>
+                        <input id="confirmSenha" name="confirmSenha" type="password" autocomplete="new-password"
+                               placeholder="Digite a senha novamente" minlength="6" required>
+                    </div>
+                    <button class="btn auth-submit" type="submit">Criar conta</button>
+                    <p class="auth-switch">Já tem uma conta? <button type="button" class="text-button" id="showLogin">Voltar para o login</button></p>
+                </form>
+            </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

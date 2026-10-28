@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum TipoMovimentacao {
+  entrada
+  saida
+}
+
+model Usuario {
+  id_usuario Int    @id @default(autoincrement())
+  nome       String
+  email      String @unique
+  senha      String
+
+  movimentacoes Movimentacao_Estoque[]
+}
+
+model Disco {
+  id_disco           Int    @id @default(autoincrement())
+  titulo             String
+  artista            String
+  genero             String
+  preco_custo        Float
+  preco_venda        Float
+  quantidade_estoque Int
+  estoque_minimo     Int
+
+  movimentacoes Movimentacao_Estoque[]
+}
+
+model Movimentacao_Estoque {
+  id_movimentacao   Int              @id @default(autoincrement())
+  id_disco          Int
+  id_usuario        Int
+  tipo_movimentacao TipoMovimentacao @default(saida)
+  quantidade        Int
+  data_movimentacao DateTime         @db.Date
+  observacao        String
+
+  disco   Disco   @relation(fields: [id_disco], references: [id_disco])
+  usuario Usuario @relation(fields: [id_usuario], references: [id_usuario])
+}

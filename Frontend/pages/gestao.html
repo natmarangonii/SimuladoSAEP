@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Disco Studio
+  </title>
+  <link href="../style.css" rel="stylesheet"/>
+  <script src="../script.js">
+  </script>
+ </head>
+ <body>
+  <header class="topbar">
+   <div class="nav-wrap">
+    <a class="brand" href="home.html">
+     <img alt="Logo da loja" id="brandLogo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../assets/logo.png"/>
+     <div class="brand-mark" style="display:none">
+      DS
+     </div>
+     <div>
+      <div class="brand-name">
+       Disco Studio
+      </div>
+      <div class="brand-sub">
+       ACERVO &amp; VINIL
+      </div>
+     </div>
+    </a>
+    <nav class="nav">
+     <a data-nav="home" href="home.html">
+      IN&Iacute;CIO
+     </a>
+     <a data-nav="discos" href="discos.html">
+      CADASTRO DE DISCOS
+     </a>
+     <a data-nav="gestao" href="gestao.html">
+      ACERVO &amp; VENDAS
+     </a>
+    </nav>
+    <div class="user-area">
+     <span>
+      Ol&aacute;,
+      <strong data-user-name="">
+       Usu&aacute;rio
+      </strong>
+     </span>
+     <button class="logout" onclick="logout()">
+      Sair &nearrow;
+     </button>
+    </div>
+   </div>
+  </header>
+  <main class="container">
+   <div class="page-heading">
+    <div>
+     <div class="eyebrow">
+      MOVIMENTA&Ccedil;&Atilde;O DO ESTOQUE
+     </div>
+     <h1>
+      Acervo &amp; vendas
+     </h1>
+     <p>
+      Registre entradas e sa&iacute;das sem perder o controle dos seus t&iacute;tulos.
+     </p>
+    </div>
+    <a class="btn secondary" href="home.html">
+     &larr; In&iacute;cio
+    </a>
+   </div>
+   <div class="notice" id="notice">
+   </div>
+   <div class="movement-layout">
+    <section class="panel">
+     <h2 class="section-title">
+      Nova movimenta&ccedil;&atilde;o
+     </h2>
+     <p class="muted" style="font-size:13px;margin:7px 0 22px">
+      A quantidade em estoque ser&aacute; atualizada ao salvar.
+     </p>
+     <form id="movementForm">
+      <div class="field">
+       <label for="disco">
+        Disco *
+       </label>
+       <select id="disco" required="">
+        <option value="">
+         Carregando discos&hellip;
+        </option>
+       </select>
+      </div>
+      <div class="field">
+       <label>
+        Tipo de movimenta&ccedil;&atilde;o *
+       </label>
+       <div class="radio-row">
+        <label class="radio-option">
+         <input checked="" name="tipo" type="radio" value="entrada"/>
+         Reposi&ccedil;&atilde;o / compra
+        </label>
+        <label class="radio-option">
+         <input name="tipo" type="radio" value="saida"/>
+         Venda
+        </label>
+       </div>
+      </div>
+      <div class="field">
+       <label for="quantidade">
+        Quantidade *
+       </label>
+       <input id="quantidade" min="1" placeholder="Ex.: 2" required="" step="1" type="number"/>
+      </div>
+      <div class="field">
+       <label for="data">
+        Data da movimenta&ccedil;&atilde;o *
+       </label>
+       <input id="data" required="" type="date"/>
+      </div>
+      <div class="field">
+       <label for="observacao">
+        Observa&ccedil;&atilde;o *
+       </label>
+       <input id="observacao" maxlength="191" placeholder="Ex.: venda no balc&atilde;o" required=""/>
+      </div>
+      <div class="helper">
+       Em vendas, o sistema avisa se o estoque ficar abaixo do m&iacute;nimo configurado.
+      </div>
+      <button style="width:100%" type="submit">
+       Registrar movimenta&ccedil;&atilde;o
+      </button>
+     </form>
+    </section>
+    <section class="panel">
+     <h2 class="section-title">
+      Estoque atual
+     </h2>
+     <p class="muted" style="font-size:13px;margin:7px 0 18px">
+      Lista em ordem alfab&eacute;tica por t&iacute;tulo.
+     </p>
+     <div class="table-wrap">
+      <table style="min-width:480px">
+       <thead>
+        <tr>
+         <th>
+          Disco
+         </th>
+         <th>
+          Artista
+         </th>
+         <th>
+          Em estoque
+         </th>
+         <th>
+          M&iacute;nimo
+         </th>
+         <th>
+          Situa&ccedil;&atilde;o
+         </th>
+        </tr>
+       </thead>
+       <tbody id="stockRows">
+        <tr>
+         <td class="empty" colspan="5">
+          Carregando&hellip;
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </section>
+   </div>
+   <section class="panel" style="margin-top:18px">
+    <h2 class="section-title">
+     Movimenta&ccedil;&otilde;es recentes
+    </h2>
+    <p class="muted" style="font-size:13px;margin:7px 0 18px">
+     Hist&oacute;rico registrado no sistema.
+    </p>
+    <div class="table-wrap">
+     <table>
+      <thead>
+       <tr>
+        <th>
+         Data
+        </th>
+        <th>
+         Disco
+        </th>
+        <th>
+         Tipo
+        </th>
+        <th>
+         Quantidade
+        </th>
+        <th>
+         Usu&aacute;rio
+        </th>
+        <th>
+         Observa&ccedil;&atilde;o
+        </th>
+       </tr>
+      </thead>
+      <tbody id="historyRows">
+       <tr>
+        <td class="empty" colspan="6">
+         Carregando&hellip;
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </section>
+   <div class="footer">
+    <a href="home.html">
+     &larr; Voltar ao in&iacute;cio
+    </a>
+   </div>
+  </main>
+  <script>
+   const user=requireLogin();document.querySelector('[data-nav="gestao"]').classList.add('active');const notice=document.getElementById('notice'),sel=document.getElementById('disco'),stockRows=document.getElementById('stockRows');let discos=[];document.getElementById('data').value=dateToday();function sortDiscos(a){return a.sort((x,y)=>x.titulo.localeCompare(y.titulo,'pt-BR',{sensitivity:'base'}));}function renderStock(){if(!discos.length){stockRows.innerHTML='<tr><td colspan="5" class="empty">Nenhum disco cadastrado.</td></tr>';return;}stockRows.innerHTML=discos.map(d=>{const low=Number(d.quantidade_estoque)<=Number(d.estoque_minimo);return `<tr><td><strong>${escapeHtml(d.titulo)}</strong></td><td>${escapeHtml(d.artista)}</td><td>${d.quantidade_estoque}</td><td>${d.estoque_minimo}</td><td><span class="status ${low?'low':'ok'}">${low?'Repor estoque':'Em dia'}</span></td></tr>`}).join('');}async function load(){try{discos=sortDiscos(await api('/disco/listar'));sel.innerHTML='<option value="">Selecione um disco</option>'+discos.map(d=>`<option value="${d.id_disco}">${escapeHtml(d.titulo)} — ${escapeHtml(d.artista)} (estoque: ${d.quantidade_estoque})</option>`).join('');renderStock();await loadHistory();}catch(e){showNotice(notice,e.message);stockRows.innerHTML='<tr><td colspan="5" class="empty">'+escapeHtml(e.message)+'</td></tr>';}}async function loadHistory(){try{const h=await api('/movimentacao_estoque/listar');h.sort((a,b)=>new Date(b.data_movimentacao)-new Date(a.data_movimentacao));document.getElementById('historyRows').innerHTML=h.length?h.slice(0,20).map(m=>`<tr><td>${m.data_movimentacao?new Date(m.data_movimentacao).toLocaleDateString('pt-BR',{timeZone:'UTC'}):'—'}</td><td>${escapeHtml(m.disco?.titulo||('Disco '+m.id_disco))}</td><td>${m.tipo_movimentacao==='entrada'?'Reposição':'Venda'}</td><td>${m.quantidade}</td><td>${escapeHtml(m.usuario?.nome||'—')}</td><td>${escapeHtml(m.observacao)}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">Ainda não há movimentações.</td></tr>';}catch(e){document.getElementById('historyRows').innerHTML='<tr><td colspan="6" class="empty">'+escapeHtml(e.message)+'</td></tr>';}}document.getElementById('movementForm').addEventListener('submit',async e=>{e.preventDefault();const d=discos.find(x=>x.id_disco===Number(sel.value));const tipo=document.querySelector('input[name="tipo"]:checked').value;const quantidade=Number(document.getElementById('quantidade').value);const data=document.getElementById('data').value;const observacao=document.getElementById('observacao').value.trim();if(!d||!Number.isInteger(quantidade)||quantidade<1||!data||!observacao){showNotice(notice,'Preencha todos os campos corretamente.');return;}if(tipo==='saida'&&quantidade>Number(d.quantidade_estoque)){showNotice(notice,'Não há unidades suficientes desse disco para registrar a venda.');return;}const novoEstoque=Number(d.quantidade_estoque)+(tipo==='entrada'?quantidade:-quantidade);try{await api('/movimentacao_estoque/cadastrar',{method:'POST',body:JSON.stringify({id_disco:d.id_disco,id_usuario:user.id_usuario,tipo_movimentacao:tipo,quantidade,data_movimentacao:new Date(`${data}T00:00:00.000Z`).toISOString(),observacao})});await api('/disco/atualizar/'+d.id_disco,{method:'PUT',body:JSON.stringify({quantidade_estoque:novoEstoque})});showNotice(notice,'Movimentação registrada e estoque atualizado.','success');if(tipo==='saida'&&novoEstoque<Number(d.estoque_minimo))alert(`Atenção: o estoque de “${d.titulo}” ficou abaixo do mínimo configurado (${d.estoque_minimo}). Estoque atual: ${novoEstoque}.`);else if(tipo==='saida'&&novoEstoque===Number(d.estoque_minimo))alert(`Atenção: “${d.titulo}” atingiu o estoque mínimo (${d.estoque_minimo}).`);document.getElementById('movementForm').reset();document.getElementById('data').value=dateToday();document.querySelector('input[name="tipo"][value="entrada"]').checked=true;await load();}catch(err){showNotice(notice,'Não foi possível concluir a movimentação: '+err.message+' Se o histórico foi salvo, confira antes de tentar novamente.');}});load();
+  </script>
+  <script src="../script.js">
+  </script>
+ </body>
+</html>
+

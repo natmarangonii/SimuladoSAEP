@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Disco Studio
+  </title>
+  <link href="../style.css" rel="stylesheet"/>
+  <script src="../script.js">
+  </script>
+ </head>
+ <body>
+  <header class="topbar">
+   <div class="nav-wrap">
+    <a class="brand" href="home.html">
+     <img alt="Logo da loja" id="brandLogo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../assets/logo.png"/>
+     <div class="brand-mark" style="display:none">
+      DS
+     </div>
+     <div>
+      <div class="brand-name">
+       Disco Studio
+      </div>
+      <div class="brand-sub">
+       ACERVO &amp; VINIL
+      </div>
+     </div>
+    </a>
+    <nav class="nav">
+     <a data-nav="home" href="home.html">
+      IN&Iacute;CIO
+     </a>
+     <a data-nav="discos" href="discos.html">
+      CADASTRO DE DISCOS
+     </a>
+     <a data-nav="gestao" href="gestao.html">
+      ACERVO &amp; VENDAS
+     </a>
+     <a href="#vinylShelf">
+      DISCOS NO ACERVO
+     </a>
+    </nav>
+    <div class="user-area">
+     <span>
+      Ol&aacute;,
+      <strong data-user-name="">
+       Usu&aacute;rio
+      </strong>
+     </span>
+     <button class="logout" onclick="logout()">
+      Sair &nearrow;
+     </button>
+    </div>
+   </div>
+  </header>
+  <main class="container">
+   <div class="page-heading">
+    <div>
+     <div class="eyebrow">
+      PAINEL DA LOJA
+     </div>
+     <h1>
+      Bom ter voc&ecirc; por aqui.
+     </h1>
+     <p>
+      Seu acervo, organizado do seu jeito.
+     </p>
+    </div>
+   </div>
+   <div class="stats">
+    <div class="stat">
+     <div class="stat-label">
+      Discos cadastrados
+     </div>
+     <div class="stat-value" id="totalDiscos">
+      &mdash;
+     </div>
+    </div>
+    <div class="stat">
+     <div class="stat-label">
+      Unidades no acervo
+     </div>
+     <div class="stat-value" id="totalUnidades">
+      &mdash;
+     </div>
+    </div>
+    <div class="stat">
+     <div class="stat-label">
+      Discos com estoque baixo
+     </div>
+     <div class="stat-value" id="estoqueBaixo">
+      &mdash;
+     </div>
+    </div>
+   </div>
+   <div class="home-grid">
+    <section class="action-card">
+     <div class="action-icon">
+      ◉
+     </div>
+     <h2>
+      Cadastro de discos
+     </h2>
+     <p>
+      Adicione novos t&iacute;tulos, atualize informa&ccedil;&otilde;es e mantenha a lista do acervo em dia.
+     </p>
+     <a class="btn" href="discos.html">
+      Abrir cadastro &rarr;
+     </a>
+    </section>
+    <section class="action-card">
+     <div class="action-icon">
+      &nearrow;
+     </div>
+     <h2>
+      Gest&atilde;o de acervo e vendas
+     </h2>
+     <p>
+      Registre entradas e vendas, confira o estoque e acompanhe os t&iacute;tulos que precisam de reposi&ccedil;&atilde;o.
+     </p>
+     <a class="btn secondary" href="gestao.html">
+      Gerenciar estoque &rarr;
+     </a>
+    </section>
+   </div>
+   <section class="vinyl-shelf" id="vinylShelf">
+    <div class="shelf-heading">
+     <div>
+      <div class="eyebrow">ESCOLHIDOS DA CASA</div>
+      <h2>Discos no acervo</h2>
+      <p>Uma espiada nos vinis que moram por aqui.</p>
+     </div>
+     <a class="shelf-link" href="discos.html">Ver e editar acervo &rarr;</a>
+    </div>
+    <div class="disc-shelf" id="discShelf">
+     <div class="shelf-empty">Carregando os discos do acervo...</div>
+    </div>
+   </section>
+   <div class="footer">
+    DISCO STUDIO &middot; CADA VINIL TEM SEU LUGAR
+   </div>
+  </main>
+  <script>
+   requireLogin();document.querySelector('[data-nav="home"]').classList.add('active');(async()=>{const shelf=document.getElementById('discShelf');try{const d=await api('/disco/listar');document.getElementById('totalDiscos').textContent=d.length;document.getElementById('totalUnidades').textContent=d.reduce((a,x)=>a+Number(x.quantidade_estoque||0),0);document.getElementById('estoqueBaixo').textContent=d.filter(x=>Number(x.quantidade_estoque)<=Number(x.estoque_minimo)).length;if(!d.length){shelf.innerHTML='<div class="shelf-empty">Ainda não há discos cadastrados. <a class="shelf-link" href="discos.html">Cadastre o primeiro &rarr;</a></div>';return;}const picks=[...d].sort((a,b)=>String(a.titulo).localeCompare(String(b.titulo),'pt-BR')).slice(0,8);shelf.innerHTML=picks.map((x,i)=>`<article class="disc-card"><div class="disc-art" aria-hidden="true"><span>${escapeHtml(String(x.genero||'VINIL').slice(0,3).toUpperCase())}</span></div><h3>${escapeHtml(x.titulo)}</h3><p class="disc-artist">${escapeHtml(x.artista)}</p><div class="disc-meta"><strong>${money(x.preco_venda)}</strong><span class="disc-stock">${Number(x.quantidade_estoque||0)} un.</span></div></article>`).join('');}catch(e){['totalDiscos','totalUnidades','estoqueBaixo'].forEach(id=>document.getElementById(id).textContent='—');shelf.innerHTML='<div class="shelf-empty">Não foi possível carregar o acervo. Confira se o backend está rodando.</div>';}})();
+  </script>
+  <script src="../script.js">
+  </script>
+ </body>
+</html>
+
