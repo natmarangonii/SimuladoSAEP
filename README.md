@@ -46,7 +46,7 @@ Desenvolver um sistema Web Full-stack para gerenciar o acervo de uma loja de dis
 - **Front-end:** HTML5, CSS e JavaScript.
 - **ORM:** Prisma v5.14.0.
 - **Banco de dados:** SGBD configurado no projeto e acessado por meio do Prisma Client.
-- **Navegadores:** Google Chrome ou Mozilla Firefox.
+- **Navegadores:** Google Chrome.
 - **Testes de API:** Insomnia.
 - **Preparação:** servidor back-end em execução, banco de dados acessível e tabelas criadas conforme o schema do Prisma.
 
